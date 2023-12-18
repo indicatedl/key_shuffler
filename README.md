@@ -39,15 +39,16 @@ python examples\file_encryptor.py
 ```python
 with open(WALLETS_FILE, 'r') as file:
     ........
-    wallets = ....
+    WALLETS = ....
 ```
 Заменить весь блок with open...., включая все что находится с отступом под ним на
 ```python
 from key_shuffler import KeyShuffler
-wallets = KeyShuffler.decrypt_file('your_file.txt')
+WALLETS = KeyShuffler().decrypt_file(WALLETS_FILE)
 ```
+При этом необходимо сохранить имя файла с кошельками WALLETS_FILE и имя переменной с кошельками WALLETS
 
-Пример: было
+Пример:
 ```python
 with open("accounts.txt", "r") as file:
     ACCOUNTS = [row.strip() for row in file]
@@ -55,7 +56,7 @@ with open("accounts.txt", "r") as file:
 Стало:
 ```python
 from key_shuffler import KeyShuffler
-ACCOUNTS = KeyShuffler.decrypt_file("accounts.txt")
+ACCOUNTS = KeyShuffler().decrypt_file("accounts.txt")
 ```
 
 
