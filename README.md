@@ -9,7 +9,9 @@
 Simply python library for encrypting private keys using character shuffle method.
 
 Supports any blockchains, but is guaranteed to mask only EVM/Aptos private keys.
+
 It checks the correctly entered password by checking the case of the last 2 characters of the key.
+
 Accepts wallets in the format: _address:key_ or _key_
 
 ---
