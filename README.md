@@ -17,45 +17,72 @@ It checks the correctly entered password by checking the case of the last 2 char
 pip install key-shuffler
 ```
 
-# Usage / Использование
+# Использование - для нормисов на русском языке
 
-## В качестве отдельного скрипта для шифровки/расшифровки файла (просто скачайте с гитхаба)
+## 1 - В качестве отдельного скрипта для шифровки/расшифровки файла (просто скачайте с гитхаба)
 
 Открыть директорию:
 ```
 cd C:\...\key_shuffler
 ```
-Поместить копию приватных ключей в \examples\wallets.txt в формате _private_key_ или _address:private_key_
+Поместить кошели в \examples\wallets.txt в формате _private_key_ или _address:private_key_
 
 Запустить скрипт командой:
 ```
 python examples\file_encryptor.py
 ```
+---
 
-## Внедрение библиотеки в существующий софт
+## 2 - Внедрение библиотеки в существующий софт
 
-В общем случае: найти в .py файлах софта (чаще всего в config.py/settings.py/main.py) получение кошельков из .txt файла путем поиска по ключевой фразе "with open" либо "with aiofiles.open"
+В общем случае: найти в .py файлах софта (чаще всего в config.py/settings.py/main.py) получение КОШЕЛЬКОВ из .txt файла путем поиска по коду по ключевой фразе "with open" (синхронный код) либо "with aiofiles.open" (асинхронный код)
+---
+_Для синхронного кода:_
 ```python
-with open(WALLETS_FILE, 'r') as file:
+with open(*файл с кошельками*, 'r') as file:
     ........
-    WALLETS = ....
 ```
-Заменить весь блок with open...., включая все что находится с отступом под ним на
+Добавить строку "from key_shuffler import openEncrypted" перед ним и заменить "open" на "openEncrypted"
 ```python
-from key_shuffler import KeyShuffler
-WALLETS = KeyShuffler().decrypt_file(WALLETS_FILE)
+from key_shuffler import openEncrypted
+with openEncrypted(*файл с кошельками*, 'r') as file:
+    ........
 ```
-При этом необходимо сохранить имя файла с кошельками WALLETS_FILE и имя переменной с кошельками WALLETS.
-
-Пример:
+При этом необходимо не накосячить с отступами текста, оставить такими же как были
+Пример как было:
 ```python
 with open("accounts.txt", "r") as file:
     ACCOUNTS = [row.strip() for row in file]
 ```
-Стало:
+Как стало:
 ```python
-from key_shuffler import KeyShuffler
-ACCOUNTS = KeyShuffler().decrypt_file("accounts.txt")
+from key_shuffler import openEncrypted
+with openEncrypted("accounts.txt", "r") as file:
+    ACCOUNTS = [row.strip() for row in file]
+```
+---
+_Для асинхронного кода:_
+```python
+async with aiofiles.open(*файл с кошельками*, 'r') as file:
+    ........
+```
+Добавить строку "from key_shuffler import openEncrypted" перед ним и заменить "open" на "openEncrypted"
+```python
+from key_shuffler import aiofilesOpenEncrypted
+async with aiofilesOpenEncrypted(*файл с кошельками*, 'r') as file:
+    ........
+```
+При этом необходимо не накосячить с отступами текста, оставить такими же как были
+Пример как было:
+```python
+async with aiofiles.open("accounts.txt", "r") as file:
+    ACCOUNTS = [row.strip() for row in file]
+```
+Как стало:
+```python
+from key_shuffler import aiofilesOpenEncrypted
+async with aiofilesOpenEncrypted("accounts.txt", "r") as file:
+    ACCOUNTS = [row.strip() for row in file]
 ```
 
 # EXAMPLES
