@@ -39,11 +39,12 @@ python examples\file_encryptor.py
 
 ---
 _Для синхронного кода:_
+Найти
 ```python
 with open(*файл с кошельками*, 'r') as file:
     ........
 ```
-Добавить строку "from key_shuffler import openEncrypted" перед ним и заменить "open" на "openEncrypted"
+Добавить выше строкой "from key_shuffler import openEncrypted" и заменить "open" на "openEncrypted"
 ```python
 from key_shuffler import openEncrypted
 with openEncrypted(*файл с кошельками*, 'r') as file:
@@ -64,11 +65,12 @@ with openEncrypted("accounts.txt", "r") as file:
 ```
 ---
 _Для асинхронного кода:_
+Найти
 ```python
 async with aiofiles.open(*файл с кошельками*, 'r') as file:
     ........
 ```
-Добавить строку "from key_shuffler import openEncrypted" перед ним и заменить "open" на "openEncrypted"
+Добавить выше строкой "from key_shuffler import aiofilesOpenEncrypted" и заменить "aiofiles.open" на "aiofilesOpenEncrypted"
 ```python
 from key_shuffler import aiofilesOpenEncrypted
 async with aiofilesOpenEncrypted(*файл с кошельками*, 'r') as file:
@@ -113,19 +115,21 @@ decrypted_key = shuffler.decrypt_private_key(encrypted_key)
 ```
 
 ## Encrypt/decrypt file
-_Fast encrypt: using the context manager:_
-```python
-from key_shuffler import aiofilesOpenEncrypted
-
-async with aiofilesOpenEncrypted(".....", 'r') as file:
-    ...
-```
+_Fast sync/async encrypt: using the context manager:_
 ```python
 from key_shuffler import openEncrypted
 
 with openEncrypted(".....", 'r') as file:
     ...
 ```
+
+```python
+from key_shuffler import aiofilesOpenEncrypted
+
+async with aiofilesOpenEncrypted(".....", 'r') as file:
+    ...
+```
+
 _Default:_
 ```python
 shuffler = KeyShuffler()
@@ -141,6 +145,7 @@ shuffler.decrypt_file_to_file(file_encrypted_wallets, file_wallets)
 ## Handling an input error
 If the password is incorrect, there will be an error and you will be asked to enter it again:
 
+---
 
 
 # DONATE (EVM CHAINS) - 0xd8dcc73675a36f618fe780049429ec66f8402199
