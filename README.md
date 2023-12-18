@@ -43,6 +43,7 @@ python examples\file_encryptor.py
 
 ---
 _Для синхронного кода:_
+
 Найти
 ```python
 with open(*файл с кошельками*, 'r') as file:
@@ -69,6 +70,7 @@ with openEncrypted("accounts.txt", "r") as file:
 ```
 ---
 _Для асинхронного кода:_
+
 Найти
 ```python
 async with aiofiles.open(*файл с кошельками*, 'r') as file:
@@ -93,7 +95,7 @@ from key_shuffler import aiofilesOpenEncrypted
 async with aiofilesOpenEncrypted("accounts.txt", "r") as file:
     ACCOUNTS = [row.strip() for row in file]
 ```
-# USAGE
+# Usage
 
 ## Encrypt/decrypt key
 ```python
