@@ -45,7 +45,7 @@ with open(WALLETS_FILE, 'r') as file:
 from key_shuffler import KeyShuffler
 WALLETS = KeyShuffler().decrypt_file(WALLETS_FILE)
 ```
-При этом необходимо сохранить имя файла с кошельками WALLETS_FILE и имя переменной с кошельками WALLETS
+При этом необходимо сохранить имя файла с кошельками WALLETS_FILE и имя переменной с кошельками WALLETS.
 
 Пример:
 ```python
@@ -86,7 +86,7 @@ If the password is incorrect, there will be an error and you will be asked to en
 ```python
 new_passphrase = "Hello world hello world hello world" 
 shuffler = KeyShuffler(new_passphrase)
-decrypted_key = shuffler.decrypt_private_key(encrypted_key)
+decrypted_key = shuffler.decrypt_private_key(encrypted_key) # Error
 ```
 
 
