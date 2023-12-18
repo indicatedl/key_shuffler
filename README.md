@@ -12,14 +12,14 @@ It checks the correctly entered password by checking the case of the last 2 char
 
 ---
 
-# Installation 
+# Installation / Установка
 ```
 pip install key-shuffler
 ```
 
-# Usage
+# Usage / Использование
 
-## В качестве отдельного скрипта для шифровки/расшифровки файла (скачайте с гитхаба)
+## В качестве отдельного скрипта для шифровки/расшифровки файла (просто скачайте с гитхаба)
 
 Открыть директорию:
 ```
@@ -32,10 +32,9 @@ cd C:\...\key_shuffler
 python examples\file_encryptor.py
 ```
 
-## Внедрение в существующий софт
+## Внедрение библиотеки в существующий софт
 
-В общем случае:
-Найти в .py файлах софта (чаще всего в config.py/settings.py/main.py) получение кошельков из .txt файла путем поиска по ключевой фразе "with open" либо "with aiofiles.open"
+В общем случае: найти в .py файлах софта (чаще всего в config.py/settings.py/main.py) получение кошельков из .txt файла путем поиска по ключевой фразе "with open" либо "with aiofiles.open"
 ```python
 with open(WALLETS_FILE, 'r') as file:
     ........
@@ -57,6 +56,37 @@ with open("accounts.txt", "r") as file:
 ```python
 from key_shuffler import KeyShuffler
 ACCOUNTS = KeyShuffler().decrypt_file("accounts.txt")
+```
+
+# EXAMPLES
+
+```python
+from key_shuffler import KeyShuffler
+```
+a) The password is already set in the variable:
+```python
+private_key = "........"
+passphrase = "Hello world" 
+
+shuffler = KeyShuffler(passphrase)
+encrypted_key = shuffler.encrypt_private_key(private_key)
+decrypted_key = shuffler.decrypt_private_key(encrypted_key)
+```
+
+b) The password will be specified by the user via the terminal:
+```python
+private_key = "......."
+
+shuffler = KeyShuffler()
+encrypted_key = shuffler.encrypt_private_key(private_key)
+decrypted_key = shuffler.decrypt_private_key(encrypted_key)
+```
+
+If the password is incorrect, there will be an error and you will be asked to enter it again:
+```python
+new_passphrase = "Hello world hello world hello world" 
+shuffler = KeyShuffler(new_passphrase)
+decrypted_key = shuffler.decrypt_private_key(encrypted_key)
 ```
 
 
