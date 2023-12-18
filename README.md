@@ -49,7 +49,8 @@ from key_shuffler import openEncrypted
 with openEncrypted(*файл с кошельками*, 'r') as file:
     ........
 ```
-При этом необходимо не накосячить с отступами текста, оставить такими же как были
+При этом необходимо не накосячить с отступами текста, оставить такими же как были.
+
 Пример как было:
 ```python
 with open("accounts.txt", "r") as file:
@@ -73,7 +74,8 @@ from key_shuffler import aiofilesOpenEncrypted
 async with aiofilesOpenEncrypted(*файл с кошельками*, 'r') as file:
     ........
 ```
-При этом необходимо не накосячить с отступами текста, оставить такими же как были
+При этом необходимо не накосячить с отступами текста, оставить такими же как были.
+
 Пример как было:
 ```python
 async with aiofiles.open("accounts.txt", "r") as file:
