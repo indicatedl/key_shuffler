@@ -7,11 +7,11 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 setup(
     name="key_shuffler",
-    version='0.1.0',
+    version='0.1.1',
     author="indicatedl",
     author_email="indcated@gmail.com",
     url="https://github.com/indicatedl/key_shuffler.git",
-    download_url=f"https://github.com/indicatedl/key_shuffler/archive/refs/tags/v0.1.0.zip",
+    download_url=f"https://github.com/indicatedl/key_shuffler/archive/refs/tags/v0.1.1.zip",
     description="Simply python library for encrypting private keys using character shuffle method",
     packages=['key_shuffler'],
     install_requires=[],

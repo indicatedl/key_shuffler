@@ -1,7 +1,7 @@
 import os
 import random
 import locale
-
+import aiofiles
 
 class KeyShuffler:
     def __init__(self, 
@@ -86,7 +86,7 @@ class KeyShuffler:
                 else:
                     file.write(f"{wallet[0]}\n")
 
-    def encrypt_file(self, 
+    def encrypt_from_file(self, 
                      file_wallets: str) -> list:
         if not self.seed:
             self.get_passphrase(new=True)
@@ -98,7 +98,7 @@ class KeyShuffler:
                 wallet[0] = self.encrypt_private_key(wallet[0])
         return wallets
 
-    def decrypt_file(self, 
+    def decrypt_from_file(self, 
                      file_wallets: str) -> list:
         if not self.seed:
             self.get_passphrase(new=False)
@@ -113,12 +113,63 @@ class KeyShuffler:
     def encrypt_file_to_file(self, 
                              from_file: str, 
                              to_file: str) -> None:
-        wallets = self.encrypt_file(from_file)
+        wallets = self.encrypt_from_file(from_file)
         self.save_wallets_to_file(wallets, to_file)
 
     def decrypt_file_to_file(self, 
                              from_file: str, 
                              to_file: str) -> None:
-        wallets = self.decrypt_file(from_file)
+        wallets = self.decrypt_from_file(from_file)
         self.save_wallets_to_file(wallets, to_file)
 
+
+class openEncrypted:
+    def __init__(self, filename, mode='r', *args, **kwargs):
+        self.filename = filename
+        self.key_shuffler = KeyShuffler()
+        self.file = None
+        self.mode = mode # only 'r'
+        self.args = args
+        self.kwargs = kwargs
+
+    def __enter__(self):
+        self.file = open(self.filename, mode='r', *self.args, **self.kwargs)
+        encrypted_data = [row.strip().split(':') for row in self.file]
+
+        decrypted_data = []
+        for item in encrypted_data:
+            if len(item) > 1:
+                item[1] = self.key_shuffler.decrypt_private_key(item[1])
+            else:
+                item[0] = self.key_shuffler.decrypt_private_key(item[0])
+            decrypted_data.append(':'.join(item))
+        return decrypted_data
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.file.close()
+
+
+class aiofilesOpenEncrypted:
+    def __init__(self, filename, mode='r', *args, **kwargs):
+        self.filename = filename
+        self.key_shuffler = KeyShuffler()
+        self.file = None
+        self.mode = mode # only 'r'
+        self.args = args
+        self.kwargs = kwargs
+
+    async def __aenter__(self):
+        self.file = await aiofiles.open(self.filename, mode='r', *self.args, **self.kwargs)
+        encrypted_data = [row.strip().split(':') for row in await self.file.readlines()]
+
+        decrypted_data = []
+        for item in encrypted_data:
+            if len(item) > 1:
+                item[1] = self.key_shuffler.decrypt_private_key(item[1])
+            else:
+                item[0] = self.key_shuffler.decrypt_private_key(item[0])
+            decrypted_data.append(':'.join(item))
+        return decrypted_data
+
+    async def __aexit__(self, exc_type, exc_value, traceback):
+        await self.file.close()

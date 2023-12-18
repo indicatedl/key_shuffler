@@ -16,85 +16,11 @@ Accepts wallets in the format: _address:key_ or _key_
 
 ---
 
-# Installation / Установка
+# Installation
 ```
 pip install key-shuffler
 ```
 
-# Использование (для нормисов на русском языке)
-
-## В качестве отдельного скрипта для шифровки/расшифровки файла (просто скачайте с гитхаба)
-
-Открыть директорию:
-```
-cd C:\...\key_shuffler
-```
-Поместить кошели в \examples\wallets.txt в формате _private_key_ или _address:private_key_
-
-Запустить скрипт командой:
-```
-python examples\file_encryptor.py
-```
----
-
-## Внедрение библиотеки в существующий софт
-
-В общем случае: найти в .py файлах софта (чаще всего в config.py/settings.py/main.py) получение КОШЕЛЬКОВ из .txt файла путем поиска по коду по ключевой фразе "with open" (синхронный код) либо "with aiofiles.open" (асинхронный код)
-
----
-_Для синхронного кода:_
-
-Найти
-```python
-with open(*файл с кошельками*, 'r') as file:
-    ........
-```
-Добавить выше строкой "from key_shuffler import openEncrypted" и заменить "open" на "openEncrypted"
-```python
-from key_shuffler import openEncrypted
-with openEncrypted(*файл с кошельками*, 'r') as file:
-    ........
-```
-При этом необходимо не накосячить с отступами текста, оставить такими же как были.
-
-Пример. Было:
-```python
-with open("accounts.txt", "r") as file:
-    ACCOUNTS = [row.strip() for row in file]
-```
-Стало:
-```python
-from key_shuffler import openEncrypted
-with openEncrypted("accounts.txt", "r") as file:
-    ACCOUNTS = [row.strip() for row in file]
-```
----
-_Для асинхронного кода:_
-
-Найти
-```python
-async with aiofiles.open(*файл с кошельками*, 'r') as file:
-    ........
-```
-Добавить выше строкой "from key_shuffler import aiofilesOpenEncrypted" и заменить "aiofiles.open" на "aiofilesOpenEncrypted"
-```python
-from key_shuffler import aiofilesOpenEncrypted
-async with aiofilesOpenEncrypted(*файл с кошельками*, 'r') as file:
-    ........
-```
-При этом необходимо не накосячить с отступами текста, оставить такими же как были.
-
-Пример. Было:
-```python
-async with aiofiles.open("accounts.txt", "r") as file:
-    ACCOUNTS = [row.strip() for row in file]
-```
-Стало:
-```python
-from key_shuffler import aiofilesOpenEncrypted
-async with aiofilesOpenEncrypted("accounts.txt", "r") as file:
-    ACCOUNTS = [row.strip() for row in file]
-```
 # Usage
 
 ## Encrypt/decrypt key
