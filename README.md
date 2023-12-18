@@ -51,12 +51,12 @@ with openEncrypted(*файл с кошельками*, 'r') as file:
 ```
 При этом необходимо не накосячить с отступами текста, оставить такими же как были.
 
-Пример как было:
+Пример. Было:
 ```python
 with open("accounts.txt", "r") as file:
     ACCOUNTS = [row.strip() for row in file]
 ```
-Как стало:
+Стало:
 ```python
 from key_shuffler import openEncrypted
 with openEncrypted("accounts.txt", "r") as file:
@@ -76,24 +76,24 @@ async with aiofilesOpenEncrypted(*файл с кошельками*, 'r') as fil
 ```
 При этом необходимо не накосячить с отступами текста, оставить такими же как были.
 
-Пример как было:
+Пример. Было:
 ```python
 async with aiofiles.open("accounts.txt", "r") as file:
     ACCOUNTS = [row.strip() for row in file]
 ```
-Как стало:
+Стало:
 ```python
 from key_shuffler import aiofilesOpenEncrypted
 async with aiofilesOpenEncrypted("accounts.txt", "r") as file:
     ACCOUNTS = [row.strip() for row in file]
 ```
+# USAGE
 
-# EXAMPLES
-
+## Encrypt/decrypt key
 ```python
 from key_shuffler import KeyShuffler
 ```
-a) The password is already set in the variable:
+_a) The password is already set in the variable:_
 ```python
 private_key = "........"
 passphrase = "Hello world" 
@@ -103,7 +103,7 @@ encrypted_key = shuffler.encrypt_private_key(private_key)
 decrypted_key = shuffler.decrypt_private_key(encrypted_key)
 ```
 
-b) The password will be specified by the user via the terminal:
+_b) The password will be specified by the user via the terminal:_
 ```python
 private_key = "......."
 
@@ -112,12 +112,35 @@ encrypted_key = shuffler.encrypt_private_key(private_key)
 decrypted_key = shuffler.decrypt_private_key(encrypted_key)
 ```
 
-If the password is incorrect, there will be an error and you will be asked to enter it again:
+## Encrypt/decrypt file
+_Fast encrypt: using the context manager:_
 ```python
-new_passphrase = "Hello world hello world hello world" 
-shuffler = KeyShuffler(new_passphrase)
-decrypted_key = shuffler.decrypt_private_key(encrypted_key) # Error
+from key_shuffler import aiofilesOpenEncrypted
+
+async with aiofilesOpenEncrypted(".....", 'r') as file:
+    ...
 ```
+```python
+from key_shuffler import openEncrypted
+
+with openEncrypted(".....", 'r') as file:
+    ...
+```
+_Default:_
+```python
+shuffler = KeyShuffler()
+
+wallets = shuffler.encrypt_from_file(file_wallets)
+wallets = shuffler.decrypt_from_file(file_wallets)
+
+shuffler.encrypt_file_to_file(file_wallets, file_encrypted_wallets)
+shuffler.decrypt_file_to_file(file_encrypted_wallets, file_wallets)
+
+```
+
+## Handling an input error
+If the password is incorrect, there will be an error and you will be asked to enter it again:
+
 
 
 # DONATE (EVM CHAINS) - 0xd8dcc73675a36f618fe780049429ec66f8402199
